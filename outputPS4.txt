@@ -1,8 +1,4 @@
-decreasing 15 
-decreasing 11 
-decreasing 13 
-decreasing 9 
-Maxima 87 
-decreasing 79 
-decreasing 14 
-decreasing 12 
+maxima 87
+increasing 3
+minimum 11
+decreasing 3

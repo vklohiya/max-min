@@ -7,7 +7,7 @@ output_handle = open(output_file, "w")
 def find_critical_point(array):
     """This function find the maxima OR minima in the array. If the values are strictly increasing or strictly
     decreasing then return the minimum value."""
-    def checkUnimodal(A, low, high):
+    def checkMinima(A, low, high):
         global minimum
         if low == high:
             if A[low] < minimum:
@@ -21,47 +21,47 @@ def find_critical_point(array):
                 minimum = A[mid]
             elif A[mid] > A[mid-1] and A[mid] < A[mid+1]:
                 high = mid
-                checkUnimodal(A, low, high)
+                checkMinima(A, low, high)
             else:
                 low = mid
-                checkUnimodal(A, low, high)
-    lenght = len(array)
-    if lenght >= 3:
-        global minimum
-        minimum = min(array[0], array[-1])
-        checkUnimodal(array, 0, lenght-1)
-        if minimum == array[0]:
-            print(f"increasing {minimum}")
-        elif minimum == array[-1]:
-            print(f"decreasing {minimum}")
-        else:
-            print(f"minimum {minimum}")
-    else:
-        print("Insufficient Data points")
+                checkMinima(A, low, high)
 
-
-
-def find_maxima_point(array):
-    """This function find the maxima OR minima in the array. If the values are strictly increasing or strictly
-    decreasing then return the minimum value."""
-    def checkUnimodal(A, low, high):
+    def checkMaxima(A, low, high):
+        global maxima, print_max
         if low == high:
-            print(A[low])
+            maxima = A[low]
         elif high == low + 1:
-            print(max(A[low],A[high]))
+            maxima = max(A[low],A[high])
         else:
             mid = math.floor((high + low) / 2)
             if A[mid] > A[mid-1] and A[mid] > A[mid+1]:
-                print(A[mid])
+                maxima = A[mid]
+                print_max = True
             elif A[mid] > A[mid-1] and A[mid] < A[mid+1]:
                 low = mid
-                checkUnimodal(A, low, high)
+                checkMaxima(A, low, high)
             else:
                 high = mid
-                checkUnimodal(A, low, high)
+                checkMaxima(A, low, high)
+
     lenght = len(array)
     if lenght >= 3:
-        checkUnimodal(array, 0, lenght-1)
+        global minimum, maxima, print_max
+        print_max = False
+        nl = '\n'
+        minimum = min(array[0], array[-1])
+        maxima = max(array[0], array[-1])
+        checkMinima(array, 0, lenght-1)
+        checkMaxima(array, 0, lenght - 1)
+        if print_max:
+            output_handle.write(f"maxima {maxima}{nl}")
+        else:
+            if minimum == array[0]:
+                output_handle.write(f"increasing {minimum}{nl}")
+            elif minimum == array[-1]:
+                output_handle.write(f"decreasing {minimum}{nl}")
+            else:
+                output_handle.write(f"minimum {minimum}{nl}")
     else:
         print("Insufficient Data points")
 
